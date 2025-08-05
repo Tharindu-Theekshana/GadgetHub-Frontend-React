@@ -7,6 +7,8 @@ export default function Navbar({ cartCount = 0 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  localStorage.setItem('isLoggedIn', false);
+
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const role = localStorage.getItem('userRole');
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ export default function Navbar({ cartCount = 0 }) {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Contact", href: "#deals" },
-    { name: "Products", href: "#support" },
+    { name: "Products", href: "/products" },
     ...(isLoggedIn && (role === 'distributor' || role === 'admin') ? [{ name: "Dashboard", href: "#", onClick: handleDashboard }] : []),
     ...(isLoggedIn && role === 'customer' ? [{
       name: <div className="flex items-center justify-center rounded-full w-8 h-8"><User size={20} /></div>,

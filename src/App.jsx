@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
+import Products from './components/Products'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route index element={<Home/>}/>
           <Route path='*' element={<NotFound/>}/>
+          <Route path='/products' element={<Products/>}/>
         </Routes>
       </Router>
     </>
