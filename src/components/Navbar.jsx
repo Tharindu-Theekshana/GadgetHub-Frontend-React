@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Search, ShoppingCart, User, Menu, X, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../service/AuthService';
 
 
 export default function Navbar({ cartCount = 0 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  localStorage.setItem('isLoggedIn', false);
-
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  const role = localStorage.getItem('userRole');
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
+  const [role, setRole] = useState(localStorage.getItem('userRole'));
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -26,16 +24,20 @@ export default function Navbar({ cartCount = 0 }) {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    
-    
+    const response = await logout();
+    localStorage.setItem("isLoggedIn",response.isLogged)
+    localStorage.clear();
+    alert(response.message);
+    setIsLoggedIn(false);
     setIsMenuOpen(false);
+    navigate("/")
   };
 
   const handleDashboard = (e) => {
-    e.preventDefault();
-    if (role === 'customer') navigate();
-    else if (role === 'worker') navigate();
-    else if (role === 'admin') navigate();
+    e.preventDefault(); 
+    if (role === 'CUSTOMER') navigate("/customerDashboard");
+    else if (role === 'DISTRIBUTOR') navigate("/distributorDashboard");
+    else if (role === 'admin') navigate("/adminDashboard");
     setIsMenuOpen(false);
   };
 
@@ -45,17 +47,17 @@ export default function Navbar({ cartCount = 0 }) {
     setIsMenuOpen(false);
   };
 
-  // Navigation Links
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Contact", href: "#deals" },
     { name: "Products", href: "/products" },
-    ...(isLoggedIn && (role === 'distributor' || role === 'admin') ? [{ name: "Dashboard", href: "#", onClick: handleDashboard }] : []),
-    ...(isLoggedIn && role === 'customer' ? [{
-      name: <div className="flex items-center justify-center rounded-full w-8 h-8"><User size={20} /></div>,
-      href: "#",
-      onClick: handleDashboard
-    }] : []),
+    ...(isLoggedIn ? [{
+        name: "Dashboard",
+        href: "#",
+        onClick: (e) => { e.preventDefault(); handleDashboard(e); }
+      }] : []),
+    
     {
       name: (
         isLoggedIn ?
