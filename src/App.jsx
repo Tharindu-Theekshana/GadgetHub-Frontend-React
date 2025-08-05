@@ -6,6 +6,9 @@ import Products from './components/Products'
 import Login from './components/Login'
 import CustomerDashboard from './components/CustomerDashboard'
 import DistributorDashboard from './components/DistributorDashboard'
+import MyOrders from './components/myOrders'
+import MyCart from './components/MyCart'
+import Settings from './components/Settings'
 
 function App() {
 
@@ -20,6 +23,9 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/customerDashboard' element={<CustomerDashboard/>}/>
           <Route path='/distributorDashboard' element={<DistributorDashboard/>}/>
+          <Route path='/myOrders' element={<MyOrders/>}/>
+          <Route path='/myCart' element={<MyCart/>}/>
+          <Route path='/settings' element={<Settings/>}/>
         </Routes>
       </Router>
     </>
