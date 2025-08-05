@@ -27,5 +27,17 @@ export const getOrderItems = async (userId) => {
 
 }; 
 
+export const removeFromCart = async (itemId) => {
+    try{
+        const response = await api.delete(`/orderItems/deleteFromCart/${itemId}`)
+        return response.data;
+
+    }catch(e){
+        console.error("cant remove items ",e);
+        throw e;
+    }
+
+}; 
+
 
 

@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../service/AuthService';
 
 
-export default function Navbar({ cartCount = 0 }) {
+export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
   const [role, setRole] = useState(localStorage.getItem('userRole'));
   const navigate = useNavigate();
+  const cartCount = localStorage.getItem('cartCount');
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -114,7 +115,9 @@ export default function Navbar({ cartCount = 0 }) {
                 </a>
               ))}
               {/* Cart */}
-              <button className="relative p-2 text-white hover:text-indigo-500 transition-colors group">
+              <button
+               onClick={()=>{navigate("/myCart")}}
+               className="relative p-2 text-white hover:text-indigo-500 transition-colors group">
                 <ShoppingCart className="w-6 h-6" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
@@ -172,7 +175,9 @@ export default function Navbar({ cartCount = 0 }) {
           ))}
           {/* Mobile Cart */}
           <button className="relative p-3 text-white hover:text-indigo-600">
-            <ShoppingCart className="w-6 h-6" />
+            <ShoppingCart 
+            onClick={()=>{navigate("/myCart")}}
+            className="w-6 h-6" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {cartCount}

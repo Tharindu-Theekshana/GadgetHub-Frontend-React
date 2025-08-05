@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { ShoppingCart, Package, Clock, Plus, Minus, Trash2, Calendar, Loader2, XCircle } from 'lucide-react';
-import { getOrderItems } from '../service/OrderItemService';
+import { getOrderItems, removeFromCart } from '../service/OrderItemService';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyCart() {
     const userId = localStorage.getItem("userId");
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const cartCount = cartItems.length;
+    localStorage.setItem('cartCount', cartCount);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -18,8 +23,13 @@ export default function MyCart() {
                 console.log('Cart items response:', response); // Debug log
                 setCartItems(response || []);
             } catch (e) {
-                console.error("Error fetching cart items:", e);
-                setError("Failed to load cart items. Please try again later.");
+                if (e.status === 404 || e.response?.status === 404 || e.message?.includes('404')) {
+                    console.log('Cart not found (404) - showing empty cart state');
+                    setCartItems([]); // Set empty cart
+                    setError(null); // Don't show error for 404
+                } else {
+                    setError("Failed to load cart items. Please try again later.");
+                }
             } finally {
                 setLoading(false);
             }
@@ -61,8 +71,10 @@ export default function MyCart() {
         );
     };
 
-    const removeItem = (itemId) => {
-        setCartItems(prev => prev.filter(item => item.id !== itemId));
+    const handleRemove = async (itemId) => {
+        console.log(itemId)
+        setCartItems(prev => prev.filter(item => item.itemId !== itemId));
+        await removeFromCart(itemId);
     };
 
     const calculateTotal = () => {
@@ -128,9 +140,10 @@ export default function MyCart() {
                                             <div className="xl:col-span-2 space-y-6">
                                                 {cartItems.map((item, index) => (
                                                     <div
-                                                        key={item.id || index}
+                                                        key={item.itemId || index}
                                                         className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300"
                                                     >
+                                                        
                                                         <div className="flex flex-col lg:flex-row gap-6">
                                                             {/* Product Image */}
                                                             <div className="flex-shrink-0">
@@ -162,7 +175,7 @@ export default function MyCart() {
 
                                                                     {/* Remove Button */}
                                                                     <button
-                                                                        onClick={() => removeItem(item.id)}
+                                                                        onClick={() => handleRemove(item.itemId)}
                                                                         className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg transition-colors border border-red-500/30 hover:border-red-500/50"
                                                                     >
                                                                         <Trash2 className="w-5 h-5" />
@@ -257,7 +270,9 @@ export default function MyCart() {
                                                         <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105">
                                                             Proceed to Checkout
                                                         </button>
-                                                        <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition-colors border border-white/20 hover:border-white/30">
+                                                        <button
+                                                         onClick={()=>{navigate("/products")}}
+                                                         className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition-colors border border-white/20 hover:border-white/30">
                                                             Continue Shopping
                                                         </button>
                                                     </div>
@@ -269,13 +284,13 @@ export default function MyCart() {
                                                             <span className="font-medium">Estimated Delivery</span>
                                                         </div>
                                                         <p className="text-green-200 text-sm">
-                                                            3-5 business days
+                                                            Pending
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    ) : (
+                                    ) :  (
                                         /* Empty Cart State */
                                         <div className="text-center py-20">
                                             <ShoppingCart className="w-20 h-20 text-white/40 mx-auto mb-6" />
@@ -283,7 +298,9 @@ export default function MyCart() {
                                             <p className="text-blue-200 mb-8 max-w-md mx-auto">
                                                 Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
                                             </p>
-                                            <button className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105">
+                                            <button
+                                             onClick={()=>{navigate("/products")}}
+                                             className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105">
                                                 Start Shopping
                                             </button>
                                         </div>
