@@ -9,6 +9,10 @@ import DistributorDashboard from './components/DistributorDashboard'
 import MyOrders from './components/myOrders'
 import MyCart from './components/MyCart'
 import Settings from './components/Settings'
+import PlaceOrder from './components/PlaceOrder'
+import Quotations from './components/Quotations'
+import RequestedOrders from './components/RequestedOrders'
+import NewOrders from './components/NewOrders'
 
 function App() {
 
@@ -26,6 +30,10 @@ function App() {
           <Route path='/myOrders' element={<MyOrders/>}/>
           <Route path='/myCart' element={<MyCart/>}/>
           <Route path='/settings' element={<Settings/>}/>
+          <Route path='/placeOrder' element={<PlaceOrder/>}/>
+          <Route path='/quotations' element={<Quotations/>}/>
+          <Route path='/requestedOrders' element={<RequestedOrders/>}/>
+          <Route path='/newOrders' element={<NewOrders/>}/>
         </Routes>
       </Router>
     </>

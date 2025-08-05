@@ -187,7 +187,7 @@ export default function MyOrders() {
                                                                 <h3 className="text-lg font-bold text-white truncate pr-2">
                                                                     {order.itemName || 'Unknown Item'}
                                                                 </h3>
-                                                                <span className="text-[16px] mt-1 font-medium text-indigo-100 whitespace-nowrap">
+                                                                <span className="text-[16px] mt-1 font-medium text-green-300 whitespace-nowrap">
                                                                     {order.price || 'N/A'}
                                                                 </span>
                                                             </div>

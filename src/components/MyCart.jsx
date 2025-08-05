@@ -267,7 +267,9 @@ export default function MyCart() {
                                                     </div>
 
                                                     <div className="space-y-3">
-                                                        <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105">
+                                                        <button 
+                                                         onClick={()=> {navigate("/placeOrder")}}
+                                                         className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105">
                                                             Proceed to Checkout
                                                         </button>
                                                         <button

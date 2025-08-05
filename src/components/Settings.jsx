@@ -137,24 +137,24 @@ export default function Settings() {
         />
       </div>
       <div className="mt-12 pt-8 border-t border-red-500/30">
-                      <div className="bg-red-500/10 backdrop-blur-sm rounded-xl p-6 border border-red-500/30">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h3 className="text-xl font-bold text-red-300 mb-2">Danger Zone</h3>
-                            <p className="text-red-200 mb-4">
-                              Once you delete your account, there is no going back. Please be certain.
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => setShowDeleteModal(true)}
-                          className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all"
-                        >
-                          <Trash2 className="w-5 h-5 mr-2" />
-                          Delete Account
-                        </button>
-                      </div>
-                    </div>
+        <div className="bg-red-500/10 backdrop-blur-sm rounded-xl p-6 border border-red-500/30">
+            <div className="flex items-start justify-between">
+            <div>
+                <h3 className="text-xl font-bold text-red-300 mb-2">Danger Zone</h3>
+                <p className="text-red-200 mb-4">
+                Once you delete your account, there is no going back. Please be certain.
+                </p>
+            </div>
+            </div>
+            <button
+            onClick={() => setShowDeleteModal(true)}
+            className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all"
+            >
+            <Trash2 className="w-5 h-5 mr-2" />
+            Delete Account
+            </button>
+        </div>
+        </div>
     </div>
     
   );
