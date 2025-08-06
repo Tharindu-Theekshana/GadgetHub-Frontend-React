@@ -1,0 +1,19 @@
+import api from "./api";
+
+export const sendQuotation = async (data,distributorId,itemId) => {
+
+    try{
+        const response = await api.post("/quotation/sendQuotation",{
+            price: data.price,
+            estimatedDeliveryTime: data.estimatedDeliveryTime,
+            availabilityStock: data.availabilityStock,
+            distributorId: distributorId,
+            orderItemId: itemId
+        });
+        return response.data;
+
+    }catch(e){
+        console.error("cant send quotation : ",e);
+        throw e;
+    }
+}

@@ -38,6 +38,16 @@ export const removeFromCart = async (itemId) => {
     }
 
 }; 
+export const getConfirmedOrders = async () => {
+    try{
+        const response = await api.get(`/orderItems/confirmedOrderItems`)
+        return response.data;
 
+    }catch(e){
+        console.error("cant get confirmed order items ",e);
+        throw e;
+    }
+
+}; 
 
 

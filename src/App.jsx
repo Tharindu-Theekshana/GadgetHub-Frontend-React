@@ -13,6 +13,7 @@ import PlaceOrder from './components/PlaceOrder'
 import Quotations from './components/Quotations'
 import RequestedOrders from './components/RequestedOrders'
 import NewOrders from './components/NewOrders'
+import SendQuotation from './components/SendQuotation'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/quotations' element={<Quotations/>}/>
           <Route path='/requestedOrders' element={<RequestedOrders/>}/>
           <Route path='/newOrders' element={<NewOrders/>}/>
+          <Route path='/sendQuotation' element={<SendQuotation/>}/>
         </Routes>
       </Router>
     </>
