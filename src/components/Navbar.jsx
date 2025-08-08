@@ -14,8 +14,7 @@ export default function Navbar() {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery);
-      // implement search logic here
+      navigate("/search", {state: {searchQuery}})
     }
   };
 
@@ -51,7 +50,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Contact", href: "#deals" },
+    { name: "Contact", href: "/contact" },
     { name: "Products", href: "/products" },
     ...(isLoggedIn ? [{
         name: "Dashboard",
@@ -140,7 +139,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden fixed inset-0 z-40 bg-black/80 transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+      <div className={`md:hidden fixed inset-0 z-40 bg-black/90 transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8">
 
         <div className="w-full max-w-[300px]">

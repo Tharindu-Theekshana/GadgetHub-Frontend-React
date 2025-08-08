@@ -1,6 +1,7 @@
 import api from "./api";
 
 export const addTOCart = async (product, userId) => {
+    console.log(product,userId);
     try{
         const response = await api.post("/orderItems/addToCart", {
             userId: userId,
@@ -45,6 +46,18 @@ export const getConfirmedOrders = async () => {
 
     }catch(e){
         console.error("cant get confirmed order items ",e);
+        throw e;
+    }
+
+}; 
+
+export const getApprovedOrders = async (id) => {
+    try{
+        const response = await api.get(`/orderItems/distributorOrderItems/${id}`)
+        return response.data;
+
+    }catch(e){
+        console.error("cant get orders ",e);
         throw e;
     }
 

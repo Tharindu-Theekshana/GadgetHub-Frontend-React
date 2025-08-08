@@ -14,6 +14,9 @@ import Quotations from './components/Quotations'
 import RequestedOrders from './components/RequestedOrders'
 import NewOrders from './components/NewOrders'
 import SendQuotation from './components/SendQuotation'
+import SearchProduct from './components/SearchProduct'
+import EachProduct from './components/EachProduct'
+import Contact from './components/Contact'
 
 function App() {
 
@@ -36,6 +39,9 @@ function App() {
           <Route path='/requestedOrders' element={<RequestedOrders/>}/>
           <Route path='/newOrders' element={<NewOrders/>}/>
           <Route path='/sendQuotation' element={<SendQuotation/>}/>
+          <Route path='/search' element={<SearchProduct/>}/>
+          <Route path='/eachProduct' element={<EachProduct/>}/>
+          <Route path='/contact' element={<Contact/>}/>
         </Routes>
       </Router>
     </>

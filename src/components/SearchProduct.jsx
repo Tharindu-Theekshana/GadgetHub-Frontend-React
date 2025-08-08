@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
-import { getAllProducts } from '../service/ProductService';
+import { getAllProducts, searchProduct } from '../service/ProductService';
 import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import api from '../service/api';
 import { addTOCart } from '../service/OrderItemService';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Products() {
+export default function SearchProducts() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [quantities, setQuantities] = useState({}); 
@@ -14,6 +14,9 @@ export default function Products() {
 
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const userId = localStorage.getItem('userId');
+
+    const location = useLocation();
+    const searchQuery = location.state?.searchQuery;
 
     const getImageUrl = (imagePath) => {
         if (!imagePath) return '/images/placeholder.jpg';
@@ -30,7 +33,11 @@ export default function Products() {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const response = await getAllProducts();
+                
+                
+                const response = searchQuery 
+                    ? await searchProduct(searchQuery)
+                    : await getAllProducts();
 
                 setTimeout(() => {
                     setProducts(response);
@@ -49,7 +56,7 @@ export default function Products() {
             }
         };
         fetchProducts();
-    }, []);
+    }, [searchQuery]);
 
     const updateQuantity = (productId, newQuantity) => {
         if (newQuantity >= 1 && newQuantity <= 99) { // Set reasonable limits
@@ -72,7 +79,6 @@ export default function Products() {
         const numValue = parseInt(value) || 1;
         updateQuantity(productId, numValue);
     };
-
     const handleClick = (id) => {
         navigate("/eachProduct", {state: {id}})
     }
@@ -84,6 +90,7 @@ export default function Products() {
             const quantity = quantities[product.id] || 1;
             console.log('Added to cart:', { ...product, quantity });
             
+            
             try {
                 
                 const productWithQuantity = { ...product, quantity };
@@ -91,7 +98,6 @@ export default function Products() {
                   
                 alert(`Added ${quantity} ${product.name}(s) to cart!`);
                 
-                // Reset quantity to 1 after adding
                 updateQuantity(product.id, 1);
             } catch (error) {
                 console.error('Error adding to cart:', error);
@@ -109,10 +115,13 @@ export default function Products() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                         <div className="text-center">
                             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                                Our Products
+                                {searchQuery ? `Search Results for "${searchQuery}"` : 'Our Products'}
                             </h1>
                             <p className="text-lg text-purple-100 max-w-2xl mx-auto">
-                                Discover our carefully curated collection of premium products
+                                {searchQuery 
+                                    ? `Found ${products.length} products matching your search`
+                                    : 'Discover our carefully curated collection of premium products'
+                                }
                             </p>
                         </div>
                     </div>
@@ -137,9 +146,9 @@ export default function Products() {
                         ) : (
                             /* Products Grid */
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                                {products.map((product) => (
+                                {products.map((product,index) => (
                                     <div 
-                                        key={product.id} 
+                                        key={product.id || index} 
                                         onClick={()=> handleClick(product.id)}
                                         className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:transform hover:scale-105 border border-white/20 hover:border-white/30"
                                     >
@@ -157,7 +166,6 @@ export default function Products() {
                                             <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-purple-200 transition-colors">
                                                 {product.name}
                                             </h3>
-
 
                                             {/* Quantity Selector */}
                                             <div className="space-y-2">
@@ -214,9 +222,16 @@ export default function Products() {
                         {/* Empty State */}
                         {!loading && products.length === 0 && (
                             <div className="text-center py-20">
-                                <div className="text-6xl mb-4">🛍️</div>
-                                <h3 className="text-2xl font-semibold text-white mb-2">No Products Found</h3>
-                                <p className="text-purple-200">Check back later for amazing products!</p>
+                                <div className="text-6xl mb-4">🔍</div>
+                                <h3 className="text-2xl font-semibold text-white mb-2">
+                                    {searchQuery ? 'No Products Found' : 'No Products Available'}
+                                </h3>
+                                <p className="text-purple-200">
+                                    {searchQuery 
+                                        ? `No products found matching "${searchQuery}". Try a different search term.`
+                                        : 'Check back later for amazing products!'
+                                    }
+                                </p>
                             </div>
                         )}
                     </div>

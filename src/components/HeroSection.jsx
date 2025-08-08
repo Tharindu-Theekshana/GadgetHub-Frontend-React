@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { ArrowDown, ChevronRight, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -81,7 +83,7 @@ export default function HeroSection() {
 
             {/* CTA Button */}
             <div className="flex">
-              <button className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 hover:shadow-2xl hover:shadow-cyan-500/25 hover:-translate-y-1 relative overflow-hidden">
+              <button onClick={()=> {navigate("/products")}} className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 hover:shadow-2xl hover:shadow-cyan-500/25 hover:-translate-y-1 relative overflow-hidden">
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
                 <span className="relative flex items-center justify-center">
                   Shop Now

@@ -31,7 +31,7 @@ export default function DistributorDashboard() {
       trend: "+12%"
     },
     {
-      title: "New Orders",
+      title: "Approved Orders",
       navigate: "/newOrders",
       subtitle: "Ready to process",
       icon: Package,

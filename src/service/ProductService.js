@@ -16,7 +16,7 @@ export const searchProduct = async (name) => {
 
     try{
 
-        const response = await api.get(`/product/search/`,null, {
+        const response = await api.get(`/product/search`, {
             params: {
                 name: name
             }
@@ -28,3 +28,17 @@ export const searchProduct = async (name) => {
         throw e;
     }
 }
+
+export const getById = async (id) => {
+
+    try{
+
+        const response = await api.get(`/product/getById/${id}`);
+        return response.data;
+
+    }catch(e){
+        console.error("cant get product ",e);
+        throw e;
+    }
+}
+
