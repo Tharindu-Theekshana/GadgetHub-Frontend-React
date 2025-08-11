@@ -140,11 +140,10 @@ export default function Products() {
                                 {products.map((product) => (
                                     <div 
                                         key={product.id} 
-                                        onClick={()=> handleClick(product.id)}
                                         className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 hover:transform hover:scale-105 border border-white/20 hover:border-white/30"
                                     >
                                         {/* Product Image */}
-                                        <div className="relative mb-4 overflow-hidden rounded-xl">
+                                        <div  onClick={()=> handleClick(product.id)} className="relative mb-4 overflow-hidden rounded-xl">
                                             <img 
                                                 src={getImageUrl(product.image)} 
                                                 alt={product.name}

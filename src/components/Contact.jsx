@@ -216,7 +216,6 @@ export default function Contact() {
               </button>
             </form>
 
-            {/* Contact Info */}
            
           </div>
         </div>
